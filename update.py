@@ -1,10 +1,19 @@
-import os
 import json
+import os
 
-payload = os.environ.get("GITHUB_EVENT_PATH")
-
-with open(payload, "r") as f:
+# Read the GitHub repository_dispatch event
+with open(os.environ["GITHUB_EVENT_PATH"], "r") as f:
     event = json.load(f)
 
-print("=== PAYLOAD RECEIVED ===")
-print(json.dumps(event.get("client_payload"), indent=2))
+users = event["client_payload"]["users"]
+
+# If Power Automate sent the array as a JSON string, convert it back to a list
+if isinstance(users, str):
+    users = json.loads(users)
+
+usernames = [user["Username"] for user in users]
+
+print("=== USERNAMES RECEIVED ===")
+
+for username in usernames:
+    print(username)
