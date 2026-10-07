@@ -65,7 +65,7 @@ headers = {
     "Accept": "application/vnd.github+json"
 }
 
-issue_body = "```json\n" + json.dumps(players, indent=2) + "\n```"
+issue_body = "```json\n" + json.dumps(refreshId, indent=2) + json.dumps(players, indent=2) + "\n```"
 
 response = requests.patch(
     issue_url,
