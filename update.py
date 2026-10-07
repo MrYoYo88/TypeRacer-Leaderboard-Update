@@ -7,6 +7,7 @@ with open(os.environ["GITHUB_EVENT_PATH"], "r") as f:
     event = json.load(f)
 
 users = event["client_payload"]["users"]
+refreshID = event["client_payload"]["refreshID"]
 
 # Power Automate may send the array as a JSON string
 if isinstance(users, str):
@@ -26,7 +27,7 @@ for username in usernames:
 
         data = response.json()
         wpm = data["tstats"]["recentAvgWpm"]
-
+        
         players.append({
             "username": username,
             "wpm": wpm
@@ -42,6 +43,7 @@ players.sort(key=lambda player: player["wpm"], reverse=True)
 with open("leaderboard.json", "w") as f:
     json.dump(players, f, indent=2)
 
+
 # Display leaderboard in GitHub Actions
 print("=== TYPE RACER LEADERBOARD ===")
 
@@ -50,6 +52,7 @@ for rank, player in enumerate(players, start=1):
         f"{rank}. {player['username']} - "
         f"{player['wpm']:.2f} WPM"
     )
+print("refreshID: " + refreshID)
 
 # Send leaderboard to GitHub Issue #1
 token = os.environ["GITHUB_TOKEN"]
