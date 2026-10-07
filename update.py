@@ -50,3 +50,27 @@ for rank, player in enumerate(players, start=1):
         f"{rank}. {player['username']} - "
         f"{player['wpm']:.2f} WPM"
     )
+
+# Send leaderboard to GitHub Issue #1
+token = os.environ["GITHUB_TOKEN"]
+
+issue_url = "https://api.github.com/repos/MrYoYo88/TypeRacer-Leaderboard-Update/issues/1"
+
+headers = {
+    "Authorization": f"Bearer {token}",
+    "Accept": "application/vnd.github+json"
+}
+
+issue_body = "```json\n" + json.dumps(players, indent=2) + "\n```"
+
+response = requests.patch(
+    issue_url,
+    headers=headers,
+    json={
+        "body": issue_body
+    }
+)
+
+response.raise_for_status()
+
+print("Leaderboard successfully sent to GitHub Issue #1!")
