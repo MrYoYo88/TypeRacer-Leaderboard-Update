@@ -18,19 +18,22 @@ usernames = [user["Username"] for user in users]
 players = []
 
 for username in usernames:
-    url = f"https://data.typeracer.com/users?id=tr:{username}"
+    try:
+        url = f"https://data.typeracer.com/users?id=tr:{username}"
 
-    response = requests.get(url)
-    response.raise_for_status()
+        response = requests.get(url)
+        response.raise_for_status()
 
-    data = response.json()
+        data = response.json()
+        wpm = data["tstats"]["recentAvgWpm"]
 
-    wpm = data["tstats"]["recentAvgWpm"]
+        players.append({
+            "username": username,
+            "wpm": wpm
+        })
 
-    players.append({
-        "username": username,
-        "wpm": wpm
-    })
+    except Exception as e:
+        print(f"Skipping {username}: {e}")
 
 # Sort highest WPM first
 players.sort(key=lambda player: player["wpm"], reverse=True)
