@@ -38,7 +38,11 @@ for username in usernames:
 # Sort highest WPM first
 players.sort(key=lambda player: player["wpm"], reverse=True)
 
-# Display leaderboard
+# Save leaderboard results
+with open("leaderboard.json", "w") as f:
+    json.dump(players, f, indent=2)
+
+# Display leaderboard in GitHub Actions
 print("=== TYPE RACER LEADERBOARD ===")
 
 for rank, player in enumerate(players, start=1):
