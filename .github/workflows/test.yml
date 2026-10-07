@@ -1,12 +1,24 @@
-name: Test Teams Trigger
+name: TypeRacer Test
 
 on:
   repository_dispatch:
     types: [refresh]
 
 jobs:
-  test:
+  update:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Test
-        run: echo "IT WORKED!"
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install requests
+        run: pip install requests
+
+      - name: Run TypeRacer updater
+        run: python update.py
