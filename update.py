@@ -10,4 +10,4 @@ response.raise_for_status()
 data = response.json()
 
 print("Username:", USERNAME)
-print("certWPM:", data.get("certWPM"))
+print("certWPM:", data.get("recentAvgWpm"))
