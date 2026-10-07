@@ -52,7 +52,8 @@ for rank, player in enumerate(players, start=1):
         f"{rank}. {player['username']} - "
         f"{player['wpm']:.2f} WPM"
     )
-print("refreshID: " + refreshID)
+print("refreshID: ")
+print(refreshID)
 
 # Send leaderboard to GitHub Issue #1
 token = os.environ["GITHUB_TOKEN"]
